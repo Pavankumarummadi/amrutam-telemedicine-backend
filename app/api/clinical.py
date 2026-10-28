@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.db import AuditLog, AvailabilitySlot, Consultation, ConsultationStatus, Doctor, Prescription, Role, SlotStatus, User, get_db
