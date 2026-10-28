@@ -1,0 +1,1 @@
+Alembic migration directory. Generate and review migrations with `alembic revision --autogenerate -m 'initial schema'`, then apply with `alembic upgrade head`. The application intentionally uses `create_all` only for local demo bootstrapping; production uses reviewed migrations.

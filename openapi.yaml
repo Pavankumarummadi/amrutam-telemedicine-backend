@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Amrutam Telemedicine API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /v1/auth/register:
+    post:
+      summary: Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RegisterIn'}
+      responses: {'201': {description: Created}}
+  /v1/auth/login:
+    post:
+      summary: Login
+      responses: {'200': {description: JWT token}}
+  /v1/doctors:
+    get:
+      summary: Search doctors
+      parameters:
+        - {in: query, name: specialty, schema: {type: string}}
+        - {in: query, name: q, schema: {type: string}}
+      responses: {'200': {description: Doctor list}}
+  /v1/slots:
+    get:
+      summary: List available slots
+      responses: {'200': {description: Slot list}}
+  /v1/consultations:
+    post:
+      summary: Book a slot idempotently
+      security: [{bearerAuth: []}]
+      parameters:
+        - {in: header, name: Idempotency-Key, required: true, schema: {type: string}}
+      responses: {'201': {description: Booked}, '409': {description: Conflict}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  schemas:
+    RegisterIn:
+      type: object
+      required: [email, password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string, minLength: 12}
+        role: {type: string, enum: [patient, doctor, admin], default: patient}
